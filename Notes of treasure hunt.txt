@@ -1,0 +1,19 @@
+Notes:
+
+-> Monday 22/08/2018 Place: Cafe Nero Oroklini
+	First team meeting! We read the assignment carefully and set different tasks to do on home,
+	about the game. More specific we set a few reaserches to do on home about the images and the content 
+	that we will use in the app.
+
+-> Monday 29/08/2018 Place: Cafe Nero Oroklini
+	We decide the name of the app and we draw on a blank page (pen and papper)
+	the "design" of each HTML file.
+
+-> Monday 05/09/2018 Place: Cafe Nero Oroklini
+	we have upload the first files
+		*Landing page
+		*Help Page
+		*CSS Desige
+		*Images that used for the app
+	and set different tasks for the next meeting.
+	(E.g. Create Social media accounts, some changes in the HTML files and on CSS file etc)
