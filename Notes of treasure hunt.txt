@@ -23,3 +23,13 @@ Notes:
 	
 -> Monday 12/11/2018 Place: Cafe Nero Oroklini
 	Attempt to create codes for Java Script
+	
+-> Sunday 18/11/2018 Place: Our Homes
+	1)Add 2 more HTML files (a)PickATreasure (b)PlayPage
+	(explanation of the pages in the commit description)
+	2)Fix Landing page
+	3)link all the pages
+	4)Remove the old verions of HTML/CSS files and upload the news 
+	(The reason is because we have a small problem withh pull from  github so i continue the project on webstorm
+	on the files that we have on our PCs)
+	5)Also add few comments on the HTML files
