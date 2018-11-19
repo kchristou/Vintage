@@ -35,3 +35,10 @@ Notes:
 	5)Also add few comments on the HTML files
 	6)Some changes on Help pages text
 	7)Some changes on AnswerSheet html file
+	
+-> Monday 19/11/2018 Place: Cafe Nero Oroklini
+	1)Reform on plain text(pen and paper) how the pages looks like
+	2)Upload it on GitHub
+	3)Seperate parts of Script code
+	4)Start writing script(on plain text)
+	5)Find some popups foor the program(Skip Button/wrong name)
