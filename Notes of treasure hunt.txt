@@ -33,3 +33,5 @@ Notes:
 	(The reason is because we have a small problem withh pull from  github so i continue the project on webstorm
 	on the files that we have on our PCs)
 	5)Also add few comments on the HTML files
+	6)Some changes on Help pages text
+	7)Some changes on AnswerSheet html file
