@@ -42,3 +42,4 @@ Notes:
 	3)Seperate parts of Script code
 	4)Start writing script(on plain text)
 	5)Find some popups foor the program(Skip Button/wrong name)
+	6)link the html files with Java-Script file 
