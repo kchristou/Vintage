@@ -1,5 +1,5 @@
 html {
-    background: url(background.png) no-repeat center center fixed; /*Set the image as background*/
+    background: url(background.PNG) no-repeat center center fixed; /*Set the image as background*/
     background-size: cover;
     position: relative;
     text-align: center; /*Of the whole website*/
