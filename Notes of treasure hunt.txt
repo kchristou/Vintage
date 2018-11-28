@@ -43,3 +43,12 @@ Notes:
 	4)Start writing script(on plain text)
 	5)Find some popups foor the program(Skip Button/wrong name)
 	6)link the html files with Java-Script file 
+	
+-> Friday 23/11/2018 Place: Uclans Library
+	1)Connect and check some script parts (but not commited on Git)
+	
+-> Tuesday 27/11/2018 Place Uclans Library
+	1)Find some errors in design and fix them
+	2)Check and Try to add more code in our JavaScript
+	3)Commit JavaScript File
+	4)Add some changesin the design of HTML files
