@@ -1,122 +1,320 @@
-function LeaderBoard(){
-var xhttp = new XMLHttpRequest();
-xhttp.onreadystatechange = function () {
-    if (this.readyState === 4 && this.status === 200) {
-        //TODO If response received (success).
-        object = JSON.parse(this.responseText);
-        console.log(this.responseText);
-        var THchallenge = document.getElementById("Sample")
-        for (var i = 0; i < object.treasureHunts.length; i++) {
-            var newTreasureHunt = document.createElement("p");
-            var linkElement = document.createElement("a");
-            linkElement.innerHTML = object.treasureHunts[i].name;
-            linkElement.href = "LeaderBoard.html";
-            THchallenge.appendChild(newTreasureHunt);
-            newTreasureHunt.appendChild(linkElement);
-
-        }
-        document.cookie = object.treasureHunts[0].uuid;
-    } else {
-        //TODO If response not received (error).
-    }
-};
-
-xhttp.open("GET", "https://codecyprus.org/th/api/leaderboard", true);
-xhttp.send();
-}
-
 function list() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             //TODO If response received (success).
             object = JSON.parse(this.responseText);
-            console.log(this.responseText);
-            var THchallenge = document.getElementById("Sample")
-            for (var i = 0; i < object.treasureHunts.length; i++) {
-                var newTreasureHunt = document.createElement("p");
-                var linkElement = document.createElement("a");
-                linkElement.innerHTML = object.treasureHunts[i].name;
-                linkElement.href = "PlayPage.html";
-               // THchallenge.appendChild(newTreasureHunt);
-                newTreasureHunt.appendChild(linkElement);
-
+            for (let i = 0; i < object.treasureHunts.length; i++) {
+                var treasureHuntsDiv = document.getElementById("Sample");
+                var treasureHunt = document.createElement("p");
+                var thLink = document.createElement("a");
+                thLink.innerHTML = (i + 1) + ". " + object.treasureHunts[i].name;
+                thLink.href = "PlayPage.html";
+                treasureHunt.appendChild(thLink);
+                treasureHuntsDiv.appendChild(treasureHunt);
             }
-            document.cookie = object.treasureHunts[0].uuid;
-        } else {
+
+            document.cookie = "uuid=" + object.treasureHunts[0].uuid;
+            console.log(getCookie);
+            console.log(document.cookie);
+
+        }
+        else {
             //TODO If response not received (error).
         }
     };
 
     xhttp.open("GET", "https://codecyprus.org/th/api/list", true);
     xhttp.send();
-    function Submit() {
-        document.getElementsByClassName("Button").onclick = function saveCredentials() {
-            var Username = document.getElementsByClassName("Username");
-            var appName = document.getElementsByClassName("AppName");
-
-        };
-    }
-
-
 }
-function start(Username,appName){
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            //TODO If response received (success).
-            object = JSON.parse(this.responseText);
-            window.location.href = "AnswerSheet.html";
-            if (object.status === "error") {
-                alert(object.errorMessage);
-            } else
-            {
-                document.cookie = object.session;
-                window.location.href = "AnswerSheet.html";
-                console.log("username"+Username,"appname"+appName);
-            }
 
-            }
-
-        else
-            {
-                //TODO If response not received (error).
-            }
-
+function Submit() {
+    document.getElementsByClassName("Button").onclick = function saveCredentials() {
+        var Username = document.getElementsByClassName("Username");
+        var appName = document.getElementsByClassName("AppName");
+        start(Username.value, appName.value);
     };
-    xhttp.open("GET", "https://codecyprus.org/th/api/start?player= "+ Username + "app= "+appName+"&treasure-hunt-id=ag9nfmNvZGVjeXBydXNvcmdyGQsSDFRyZWFzdXJlSHVudBiAgICAvKGCCgw");
-    xhttp.send();
 }
 
-function questions(){
+function start(Username, appName) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            //TODO If response received (success).
             object = JSON.parse(this.responseText);
-            console.log(this.responseText);
-            var THchallenge = document.getElementById("Sample")
-            for (var i = 0; i < object.treasureHunts.length; i++) {
-                var newTreasureHunt = document.createElement("p");
-                var linkElement = document.createElement("a");
-                linkElement.innerHTML = object.treasureHunts[i].name;
-               // linkElement.href = "LeaderBoard.html";
-                THchallenge.appendChild(newTreasureHunt);
-                newTreasureHunt.appendChild(linkElement);
+            if (object.status === "ERROR") {
+                alert(object.errorMessages);
+            }
+            else {
+                document.cookie = "session=" + object.session;
+                window.location.href = "questions.html";
             }
         }
         else {
             //TODO If response not received (error).
         }
     };
-    xhttp.open("GET", "https://codecyprus.org/th/api/question", true);
+
+    xhttp.open("GET", "https://codecyprus.org/th/api/start?player=" + Username + "&app=" + appName + "&treasure-hunt-id=" + getCookie("uuid"), true);
     xhttp.send();
+}
+
+function question() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            //TODO If response received (success).
+            object = JSON.parse(this.responseText);
+            //If the questions are over send to leaderboard page.
+            if (object.currentQuestionIndex === object.numOfQuestions){
+                document.cookie = "session=" + getCookie("session") ;
+                //
+
+            }
+            //Get location if needed
+            if (object.requiresLocation === true)
+                getLocation();
+            console.log(object);
+            var QuestionText = document.getElementsByClassName("TextQuestion");
+            QuestionText.innerHTML = "<p id='qText'>" + object.TextQuestion + "</p>";
+
+
+
+            if (object.TypeOfQuestion === "MCQ") {
+                let QDiv = document.getElementById("TypeOfQuestion");
+                QDiv.innerHTML = "<form id='AnswerForm'>" +
+                    "A<input type='radio' name='answer' value='A'>" +
+                    "B<input type='radio' name='answer' value='B'>" +
+                    "C<input type='radio' name='answer' value='C'>" +
+                    "D<input type='radio' name='answer' value='D'>" +
+                    "<input class='ansButton' type='button' name='answer' value='submit' onclick ='mcqAnswer()'>" +
+                    "<button class=\"Button\" type=\"button\"> <img class=\"ButtonImg\" src=\"SkipButton.PNG\" /></button>" +
+                    "</form>";
+            }
+
+            else if (object.TypeOfQuestion === "TEXT") {
+                let QDiv = document.getElementById("TypeOfQuestion");
+                QDiv.innerHTML = "<form id='AnswerForm'>" +
+                    "Your Answer: <input id='AnswerElement' type='text' name='answer' placeholder='Answer here...'>" +
+                    "<input class='ansButton' type='button' name='answer' value='submit' onclick ='textAnswer()'>" +
+                    "<input type='button' name='skip' value='skip' onclick ='Skip()'>" + "</form>";
+
+            }
+
+            else if (object.TypeOfQuestion === "INTEGER") {
+                let QDiv = document.getElementById("TypeOfQuestion");
+                QDiv.innerHTML = "<form id='AnswerForm'>" +
+                    "Your Answer: <input id='AnswerElement' type='number' step='number' name='answer' placeholder='Answer here...'>" +
+                    "<input class='ansButton' type='button' name='answer' value='submit' onclick ='textAnswer()'>" +
+                    "<input type='button' name='skip' value='skip' onclick ='Skip()'>" + "</form>";
+            }
+
+            else if (object.TypeOfQuestion === "BOOLEAN") {
+                let QDiv = document.getElementById("TypeOfQuestion");
+                QDiv.innerHTML = "<form id='AnswerForm'>" +
+                    "true<input type='radio' name='answer' value='true'>" +
+                    "false<input type='radio' name='answer' value='false'>" +
+                    "<input class='ansButton' type='button' name='answer' value='submit' onclick ='mcqAnswer()'>" +
+                    "<input type='button' name='skip' value='skip' onclick ='Skip()'>" + "</form>";
+            }
+
+            else if (object.TypeOfQuestion === "NUMERIC") {
+                let QDiv = document.getElementById("TypeOfQuestion");
+                QDiv.innerHTML = "<form id='AnswerForm'>" +
+                    "Your Answer: <input id='AnswerElement' type='number' step='any' name='answer'>" +
+                    "<input class='ansButton' type='button' name='answer' value='submit' onclick ='textAnswer()'>" +
+                    "<input type='button' name='skip' value='skip' onclick ='Skip()'>" + "</form>";
+            }
+
+        }
+        else {
+            //TODO If response not received (error).
+        }
+    };
+
+    xhttp.open("GET", "https://codecyprus.org/th/api/question?session=" + getCookie("session"), true);
+    xhttp.send();
+}
+
+//Handles text,number and numeric questions.
+function textAnswer() {
+    var answerForm = document.getElementById("AnswerElement");
+    var answer = answerForm[0].value;
+    console.log(answer);
+    if (answerForm[0].value === "")
+        alert("Type an answer");
+    else {
+        answer(answer);
+    }
 
 }
 
-//questions();
-//list();
-//start();
+//Handles yes/no and multiple choice questions.
+function mcqAnswer() {
+    //Get answer from The user
+    var answerForm = document.getElementById("AnswerForm");
+    for (let i = 0; i < answerForm[0].length; i++) {
+        if (answerForm[0].elements[i].checked)
+            var answer = answerForm[0].elements[i].value;
+    }
+    console.log(answer);
+    if (answer === undefined)
+        alert("Choose an answer.");
+    else
+        answer(answer);
 
-//LeaderBoard();
-//console.log(document.cookie);
+}
+
+
+function Answer(answer) {
+    location.reload();
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            //TODO If response received (success).
+            object = JSON.parse(this.responseText);
+            console.log(object.correct);
+            if (object.correct === true) {
+                console.log(this.responseText);
+            }
+            else {
+               // alert("Wrong, -3 points, Try again.");
+                //Score();
+            }
+        }
+        else {
+            //TODO If response not received (error).
+        }
+    };
+    xhttp.open("GET", "https://codecyprus.org/th/api/answer?session=" + getCookie("session") + "&answer=" + answer,true);
+    xhttp.send();
+}
+
+//Shows the name of the player and their score.
+function Score() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            //TODO If response received (success).
+            object = JSON.parse(this.responseText);
+            var ScoreDiv = document.getElementsByClassName("Score");
+            ScoreDiv.innerHTML = "<p>" + 'Player: ' + object.player + ' Score: ' + object.score + "</p>";
+        }
+        else {
+            //TODO If response not received (error).
+        }
+    };
+    xhttp.open("GET", "https://codecyprus.org/th/api/score?session=" + getCookie("session"), true);
+    xhttp.send();
+}
+
+//Checks whether the question can be skipped.
+function Skip() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            //TODO If response received (success).
+            object = JSON.parse(this.responseText);
+            if (object.canBeSkipped === true) {
+                skipq()
+            }
+            else {
+                alert("This question can not be skipped.")
+            }
+        }
+        else {
+            //TODO If response not received (error).
+        }
+    };
+    xhttp.open("GET", "https://codecyprus.org/th/api/question?session=" + getCookie("session"), true);
+    xhttp.send();
+}
+
+function skipq() {
+    if (confirm('You will lose 5 points, are you sure you want to skip?')) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                //TODO If response received (success).
+                location.reload();
+            }
+            else {
+                //TODO If response not received (error).
+            }
+        };
+        xhttp.open("GET", "https://codecyprus.org/th/api/skip?session=" + getCookie("session"), true);
+        xhttp.send();
+    }
+}
+
+//Still a work in progress
+function getLocation() {
+    if (navigator.geolocation) {
+
+        console.log(navigator.geolocation.getCurrentPosition(location));
+
+    }
+
+    function location(location){
+        console.log(location.coords.longitude);
+        console.log(location.coords.latitude);
+
+    }
+}
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function () {
+    if (this.readyState === 4 && this.status === 200) {
+        //TODO If response received (success).
+    }
+    else {
+        //TODO If response not received (error).
+    }
+};
+//TODO get actual location from mobile device.
+xhttp.open("GET", "https://codecyprus.org/th/api/location?session=" + getCookie("session") + "&latitude=35.00829" + "&longitude=33.697047", true);
+xhttp.send();
+
+function Leaderboard() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            //TODO If response received (success).
+            object = JSON.parse(this.responseText);
+            console.log(object.leaderboard);
+            for (let i = 0; i < object.numOfPlayers; i++) {
+                var Leaderboard = document.getElementById("LeaderBoard");
+                var Leaderboardindex = document.createElement("p");
+                Leaderboardindex.innerHTML = "Position: " + (i + 1) + "<br>" + "Name: " + object.leaderboard[i].player + "<br>";
+                Leaderboardindex.innerHTML += " Score: " + object.leaderboard[i].score;
+                Leaderboard.appendChild(Leaderboardindex);
+            }
+
+        }
+        else {
+            //TODO If response not received (error).
+        }
+    };
+
+    xhttp.open("GET", "https://codecyprus.org/th/api/leaderboard?treasure-hunt-id=" + getCookie("uuid") + "&sorted&limit=5", true);
+    xhttp.send();
+}
+
+//If cookie exists then direct to questions (still in development)
+function checkSession() {
+    console.log(getCookie("session"));
+    if (getCookie("session") !== undefined) {
+        if (confirm('You left a game in progress! Do you want to resume?')) {
+            window.location.href = "questions.html";
+        }
+        else {
+            //Expire the session cookie.
+            document.cookie = "session=" + getCookie("session") + "; expires=Thu, 01 Jan 2000 00:00:01 GMT";
+        }
+    }
+}
+
+//function to access the value of a specific cookie by name from stack overflow.
+function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length === 2) return parts.pop().split(";").shift();
+}

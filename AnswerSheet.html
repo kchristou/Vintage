@@ -7,23 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Make it available on mobiles: https://www.w3schools.com/w3css/w3css_mobile.asp -->
     <script src="TreasureHunt.js"></script>
 </head>
-<body>
+<body onload="question(); ">
 
-    <div class="MultipleChoiseQuestion">
-    <button class="Button" type="button"> <img class="ButtonImg" src="SkipButton.PNG" /></button> <!-- Skip Question Button -->
-    </div>
-    <div class="NumericQuestion">
-    <button class="Button" type="button"> <img class="ButtonImg" src="SkipButton.PNG" /></button> <!-- Skip Question Button -->
-    </div>
-    <div class="IntegerQuestion">
-    <button class="Button" type="button"> <img class="ButtonImg" src="SkipButton.PNG" /></button> <!-- Skip Question Button -->
-    </div>
-    <div class="TextQuestion">
-    <button class="Button" type="button"> <img class="ButtonImg" src="SkipButton.PNG" /></button> <!-- Skip Question Button -->
-    </div>
-    <div class="TrueFalseQuestion">
-    <button class="Button" type="button"> <img class="ButtonImg" src="SkipButton.PNG" /></button> <!-- Skip Question Button -->
-    </div>
+<div class ="TextQuestion"></div>
+<div class="TypeOfQuestion"></div>
+<div class="Score"></div>
+<div id="AnswerElement"></div>
+<div id="AnswerForm"></div>
 <!--Updates-->
 </body>
 </html>
