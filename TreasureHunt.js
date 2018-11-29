@@ -1,3 +1,4 @@
+
 function list() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -15,7 +16,7 @@ function list() {
             }
 
             document.cookie = "uuid=" + object.treasureHunts[0].uuid;
-            console.log(getCookie);
+            console.log(Cookie);
             console.log(document.cookie);
 
         }
@@ -45,8 +46,8 @@ function start(Username, appName) {
                 alert(object.errorMessages);
             }
             else {
-                document.cookie = "session=" + object.session;
-                window.location.href = "questions.html";
+                document.cookie = object.session;
+                window.location.href = "AnswerSheet.html";
             }
         }
         else {
@@ -54,7 +55,7 @@ function start(Username, appName) {
         }
     };
 
-    xhttp.open("GET", "https://codecyprus.org/th/api/start?player=" + Username + "&app=" + appName + "&treasure-hunt-id=" + getCookie("uuid"), true);
+    xhttp.open("GET", "https://codecyprus.org/th/api/start?player=" + Username + "&app=" + appName + "&treasure-hunt-id=" + Cookie('uuid'), true);
     xhttp.send();
 }
 
@@ -65,22 +66,22 @@ function question() {
             //TODO If response received (success).
             object = JSON.parse(this.responseText);
             //If the questions are over send to leaderboard page.
-            if (object.currentQuestionIndex === object.numOfQuestions){
-                document.cookie = "session=" + getCookie("session") ;
-                //
+            if (object.currentQuestionIndex === object.numOfQuestions)
+                document.cookie = "session=" + Cookie("uuid");
 
-            }
+
             //Get location if needed
-            if (object.requiresLocation === true)
+            if (object.requiresLocation === true) {
+                object=JSON.parse(this.responseText);
                 getLocation();
-            console.log(object);
-            var QuestionText = document.getElementsByClassName("TextQuestion");
-            QuestionText.innerHTML = "<p id='qText'>" + object.TextQuestion + "</p>";
 
+            }console.log(object);
+            var QuestionText = document.getElementsByClassName("TextQuestion");
+            QuestionText.innerHTML = "<p id='QuestionText'>" + object.TextQuestion + "</p>";
 
 
             if (object.TypeOfQuestion === "MCQ") {
-                let QDiv = document.getElementById("TypeOfQuestion");
+                let QDiv = document.getElementsByClassName("TypeOfQuestion");
                 QDiv.innerHTML = "<form id='AnswerForm'>" +
                     "A<input type='radio' name='answer' value='A'>" +
                     "B<input type='radio' name='answer' value='B'>" +
@@ -89,35 +90,27 @@ function question() {
                     "<input class='ansButton' type='button' name='answer' value='submit' onclick ='mcqAnswer()'>" +
                     "<button class=\"Button\" type=\"button\"> <img class=\"ButtonImg\" src=\"SkipButton.PNG\" /></button>" +
                     "</form>";
-            }
-
-            else if (object.TypeOfQuestion === "TEXT") {
-                let QDiv = document.getElementById("TypeOfQuestion");
+            } else if (object.TypeOfQuestion === "TEXT") {
+                let QDiv = document.getElementsByClassName("TypeOfQuestion");
                 QDiv.innerHTML = "<form id='AnswerForm'>" +
                     "Your Answer: <input id='AnswerElement' type='text' name='answer' placeholder='Answer here...'>" +
                     "<input class='ansButton' type='button' name='answer' value='submit' onclick ='textAnswer()'>" +
                     "<input type='button' name='skip' value='skip' onclick ='Skip()'>" + "</form>";
 
-            }
-
-            else if (object.TypeOfQuestion === "INTEGER") {
-                let QDiv = document.getElementById("TypeOfQuestion");
+            } else if (object.TypeOfQuestion === "INTEGER") {
+                let QDiv = document.getElementsByClassName("TypeOfQuestion");
                 QDiv.innerHTML = "<form id='AnswerForm'>" +
                     "Your Answer: <input id='AnswerElement' type='number' step='number' name='answer' placeholder='Answer here...'>" +
                     "<input class='ansButton' type='button' name='answer' value='submit' onclick ='textAnswer()'>" +
                     "<input type='button' name='skip' value='skip' onclick ='Skip()'>" + "</form>";
-            }
-
-            else if (object.TypeOfQuestion === "BOOLEAN") {
-                let QDiv = document.getElementById("TypeOfQuestion");
+            } else if (object.TypeOfQuestion === "BOOLEAN") {
+                let QDiv = document.getElementsByClassName("TypeOfQuestion");
                 QDiv.innerHTML = "<form id='AnswerForm'>" +
                     "true<input type='radio' name='answer' value='true'>" +
                     "false<input type='radio' name='answer' value='false'>" +
                     "<input class='ansButton' type='button' name='answer' value='submit' onclick ='mcqAnswer()'>" +
                     "<input type='button' name='skip' value='skip' onclick ='Skip()'>" + "</form>";
-            }
-
-            else if (object.TypeOfQuestion === "NUMERIC") {
+            } else if (object.TypeOfQuestion === "NUMERIC") {
                 let QDiv = document.getElementById("TypeOfQuestion");
                 QDiv.innerHTML = "<form id='AnswerForm'>" +
                     "Your Answer: <input id='AnswerElement' type='number' step='any' name='answer'>" +
@@ -125,14 +118,14 @@ function question() {
                     "<input type='button' name='skip' value='skip' onclick ='Skip()'>" + "</form>";
             }
 
-        }
-        else {
+        } else {
             //TODO If response not received (error).
         }
     };
 
-    xhttp.open("GET", "https://codecyprus.org/th/api/question?session=" + getCookie("session"), true);
+    xhttp.open("GET", "https://codecyprus.org/th/api/question?session=" + 'session', true);
     xhttp.send();
+
 }
 
 //Handles text,number and numeric questions.
@@ -185,7 +178,7 @@ function Answer(answer) {
             //TODO If response not received (error).
         }
     };
-    xhttp.open("GET", "https://codecyprus.org/th/api/answer?session=" + getCookie("session") + "&answer=" + answer,true);
+    xhttp.open("GET", "https://codecyprus.org/th/api/answer?session=" + 'session' + "&answer=" + answer,true);
     xhttp.send();
 }
 
@@ -203,7 +196,7 @@ function Score() {
             //TODO If response not received (error).
         }
     };
-    xhttp.open("GET", "https://codecyprus.org/th/api/score?session=" + getCookie("session"), true);
+    xhttp.open("GET", "https://codecyprus.org/th/api/score?session=" + 'session', true);
     xhttp.send();
 }
 
@@ -225,7 +218,7 @@ function Skip() {
             //TODO If response not received (error).
         }
     };
-    xhttp.open("GET", "https://codecyprus.org/th/api/question?session=" + getCookie("session"), true);
+    xhttp.open("GET", "https://codecyprus.org/th/api/question?session=" + 'session', true);
     xhttp.send();
 }
 
@@ -241,7 +234,7 @@ function skipq() {
                 //TODO If response not received (error).
             }
         };
-        xhttp.open("GET", "https://codecyprus.org/th/api/skip?session=" + getCookie("session"), true);
+        xhttp.open("GET", "https://codecyprus.org/th/api/skip?session=" + 'session', true);
         xhttp.send();
     }
 }
@@ -254,25 +247,25 @@ function getLocation() {
 
     }
 
-    function location(location){
+    function location(location) {
         console.log(location.coords.longitude);
         console.log(location.coords.latitude);
 
     }
-}
-var xhttp = new XMLHttpRequest();
-xhttp.onreadystatechange = function () {
-    if (this.readyState === 4 && this.status === 200) {
-        //TODO If response received (success).
-    }
-    else {
-        //TODO If response not received (error).
-    }
-};
-//TODO get actual location from mobile device.
-xhttp.open("GET", "https://codecyprus.org/th/api/location?session=" + getCookie("session") + "&latitude=35.00829" + "&longitude=33.697047", true);
-xhttp.send();
 
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            object = JSON.parse(this.responseText);
+            console.log(object);
+        } else {
+            //TODO If response not received (error).
+        }
+    };
+//TODO get actual location from mobile device.
+    xhttp.open("GET", "https://codecyprus.org/th/api/location?session=" + 'session' + "&latitude=35.00829" + "&longitude=33.697047", true);
+    xhttp.send();
+}
 function Leaderboard() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -294,27 +287,31 @@ function Leaderboard() {
         }
     };
 
-    xhttp.open("GET", "https://codecyprus.org/th/api/leaderboard?treasure-hunt-id=" + getCookie("uuid") + "&sorted&limit=5", true);
+    xhttp.open("GET", "https://codecyprus.org/th/api/leaderboard?treasure-hunt-id=" + Cookie("uuid") +'session'+ "&sorted&limit=5", true);
     xhttp.send();
 }
 
 //If cookie exists then direct to questions (still in development)
-function checkSession() {
-    console.log(getCookie("session"));
-    if (getCookie("session") !== undefined) {
+/*function checkSession() {
+    console.log(Cookie("session"));
+    if (Cookie("uuid") !== undefined) {
         if (confirm('You left a game in progress! Do you want to resume?')) {
-            window.location.href = "questions.html";
+            window.location.href = "AnswerSheet.html";
         }
         else {
             //Expire the session cookie.
-            document.cookie = "session=" + getCookie("session") + "; expires=Thu, 01 Jan 2000 00:00:01 GMT";
+            document.cookie = "session=" + Cookie("uuid") + "; expires=Thu, 01 Jan 2000 00:00:01 GMT";
         }
     }
-}
+}*/
 
 //function to access the value of a specific cookie by name from stack overflow.
-function getCookie(name) {
+function Cookie(name) {
     var value = "; " + document.cookie;
     var parts = value.split("; " + name + "=");
     if (parts.length === 2) return parts.pop().split(";").shift();
 }
+//---> Reference for the above function: https://stackoverflow.com/questions/10730362/get-cookie-
+// by-name?fbclid=IwAR11_jXjhMgY4hs90pYjQm8f4ua5O1Ev90WhH6zZJlmgvs8a8LnAYIVUEb0
+
+
