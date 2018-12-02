@@ -123,7 +123,7 @@ function question() {
         }
     };
 
-    xhttp.open("GET", "https://codecyprus.org/th/api/question?session=" + 'session', true);
+    xhttp.open("GET", "https://codecyprus.org/th/api/question?session=" + session, true);
     xhttp.send();
 
 }
