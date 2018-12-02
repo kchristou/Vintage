@@ -7,13 +7,17 @@
     <link rel="stylesheet" href="StyleTH.css"> <!-- Connect the html file with the CSS file -->
     <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Make it available on mobiles: https://www.w3schools.com/w3css/w3css_mobile.asp -->
 </head>
-<body onload="Submit()">
+<body >
     <img src="Logo.png" alt ="logo"  >
     <form id="Submit" >
-        <img class="LogInImg"  src="Username.PNG" alt="Add Username" />  <input type="textbox" class="ResizeTextBox" name="Username" /></p>
-        <img class="LogInImg"  src="AppName.PNG" alt="Add Application Name" /><input type="textbox" class="ResizeTextBox" name="AppName" />
+        <img class="LogInImg"  src="Username.PNG" alt="Add Username" />  <input type="text" class="ResizeTextBox" id="Username"  /></p>
+        <img class="LogInImg"  src="AppName.PNG" alt="Add Application Name" /><input type="text" class="ResizeTextBox" id="AppName"  />
 
     </form>
-    <a href="AnswerSheet.html"><button class="Button" type="button" > <img class="ButtonImg" src="startButton.png" /></button></a><!-- Button that starts the game -->
+    <!--<a href="AnswerSheet.html">-->
+        <button onclick="Submit()" class="Button" type="button" >
+            <img class="ButtonImg" src="startButton.png" />
+        </button>
+    <!--</a>&lt;!&ndash; Button that starts the game &ndash;&gt;-->
 </body>
 </html>

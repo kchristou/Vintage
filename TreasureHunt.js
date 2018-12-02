@@ -1,4 +1,3 @@
-
 function list() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -15,7 +14,7 @@ function list() {
                 treasureHuntsDiv.appendChild(treasureHunt);
             }
 
-            document.cookie = "uuid=" + object.treasureHunts[0].uuid;
+            document.cookie = "uuid=" + object.treasureHunts[0].uuid+";";
             console.log(Cookie);
             console.log(document.cookie);
 
@@ -30,11 +29,11 @@ function list() {
 }
 
 function Submit() {
-    document.getElementsByClassName("Button").onclick = function saveCredentials() {
-        var Username = document.getElementsByClassName("Username");
-        var appName = document.getElementsByClassName("AppName");
-        start(Username.value, appName.value);
-    };
+        var Username = document.getElementById("Username").value;
+        var appName = document.getElementById("AppName").value;
+        console.log(Username);
+        console.log(appName);
+        start(Username, appName);
 }
 
 function start(Username, appName) {
@@ -46,7 +45,11 @@ function start(Username, appName) {
                 alert(object.errorMessages);
             }
             else {
-                document.cookie = object.session;
+
+                let now = Date.now();
+                now+= 300000;
+
+                document.cookie = "session=" + object.session + "; expires=" + now;
                 window.location.href = "AnswerSheet.html";
             }
         }
@@ -54,6 +57,7 @@ function start(Username, appName) {
             //TODO If response not received (error).
         }
     };
+
 
     xhttp.open("GET", "https://codecyprus.org/th/api/start?player=" + Username + "&app=" + appName + "&treasure-hunt-id=" + Cookie('uuid'), true);
     xhttp.send();
@@ -64,53 +68,58 @@ function question() {
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             //TODO If response received (success).
-            object = JSON.parse(this.responseText);
+            let object = JSON.parse(this.responseText);
             //If the questions are over send to leaderboard page.
+            if (object.completed) {
+                window.location.href = "Leaderboard.html";
+            }
+            
             if (object.currentQuestionIndex === object.numOfQuestions)
-                document.cookie = "session=" + Cookie("uuid");
+                // document.cookie = "session=" + Cookie("uuid");
 
-
+                
             //Get location if needed
             if (object.requiresLocation === true) {
                 object=JSON.parse(this.responseText);
                 getLocation();
 
-            }console.log(object);
-            var QuestionText = document.getElementsByClassName("TextQuestion");
-            QuestionText.innerHTML = "<p id='QuestionText'>" + object.TextQuestion + "</p>";
+            }
+            console.log(object);
+            var QuestionText = document.getElementById("TextQuestion");
+            QuestionText.innerHTML = "<p id='QuestionText'>" + object.questionText + "</p>";
 
 
-            if (object.TypeOfQuestion === "MCQ") {
-                let QDiv = document.getElementsByClassName("TypeOfQuestion");
+            if (object.questionType === "MCQ") {
+                let QDiv = document.getElementById("TypeOfQuestion");
                 QDiv.innerHTML = "<form id='AnswerForm'>" +
-                    "A<input type='radio' name='answer' value='A'>" +
-                    "B<input type='radio' name='answer' value='B'>" +
-                    "C<input type='radio' name='answer' value='C'>" +
-                    "D<input type='radio' name='answer' value='D'>" +
+                    "A<input class='mcq' type='radio' name='answer' value='A'>" +
+                    "B<input class='mcq' type='radio' name='answer' value='B'>" +
+                    "C<input class='mcq' type='radio' name='answer' value='C'>" +
+                    "D<input class='mcq' type='radio' name='answer' value='D'>" +
                     "<input class='ansButton' type='button' name='answer' value='submit' onclick ='mcqAnswer()'>" +
                     "<button class=\"Button\" type=\"button\"> <img class=\"ButtonImg\" src=\"SkipButton.PNG\" /></button>" +
                     "</form>";
-            } else if (object.TypeOfQuestion === "TEXT") {
-                let QDiv = document.getElementsByClassName("TypeOfQuestion");
+            } else if (object.questionType === "TEXT") {
+                let QDiv = document.getElementById("TypeOfQuestion");
                 QDiv.innerHTML = "<form id='AnswerForm'>" +
                     "Your Answer: <input id='AnswerElement' type='text' name='answer' placeholder='Answer here...'>" +
                     "<input class='ansButton' type='button' name='answer' value='submit' onclick ='textAnswer()'>" +
                     "<input type='button' name='skip' value='skip' onclick ='Skip()'>" + "</form>";
 
-            } else if (object.TypeOfQuestion === "INTEGER") {
-                let QDiv = document.getElementsByClassName("TypeOfQuestion");
+            } else if (object.questionType === "INTEGER") {
+                let QDiv = document.getElementById("TypeOfQuestion");
                 QDiv.innerHTML = "<form id='AnswerForm'>" +
                     "Your Answer: <input id='AnswerElement' type='number' step='number' name='answer' placeholder='Answer here...'>" +
                     "<input class='ansButton' type='button' name='answer' value='submit' onclick ='textAnswer()'>" +
                     "<input type='button' name='skip' value='skip' onclick ='Skip()'>" + "</form>";
-            } else if (object.TypeOfQuestion === "BOOLEAN") {
-                let QDiv = document.getElementsByClassName("TypeOfQuestion");
+            } else if (object.questionType === "BOOLEAN") {
+                let QDiv = document.getElementById("TypeOfQuestion");
                 QDiv.innerHTML = "<form id='AnswerForm'>" +
-                    "true<input type='radio' name='answer' value='true'>" +
-                    "false<input type='radio' name='answer' value='false'>" +
-                    "<input class='ansButton' type='button' name='answer' value='submit' onclick ='mcqAnswer()'>" +
+                    "true<input class='bool' type='radio' name='answer' value='true'>" +
+                    "false<input class='bool' type='radio' name='answer' value='false'>" +
+                    "<input class='ansButton' type='button' name='answer' value='submit' onclick ='boolAnswer()'>" +
                     "<input type='button' name='skip' value='skip' onclick ='Skip()'>" + "</form>";
-            } else if (object.TypeOfQuestion === "NUMERIC") {
+            } else if (object.questionType === "NUMERIC") {
                 let QDiv = document.getElementById("TypeOfQuestion");
                 QDiv.innerHTML = "<form id='AnswerForm'>" +
                     "Your Answer: <input id='AnswerElement' type='number' step='any' name='answer'>" +
@@ -123,6 +132,17 @@ function question() {
         }
     };
 
+    let cookie = document.cookie;
+    let cookieContents = cookie.split(";");
+    let session;
+    for (let i = 0; i <cookieContents.length ; i++) {
+        let key = cookieContents[i].split("=")[0].trim();
+        let val = cookieContents[i].split("=")[1].trim();
+        if (key==="session"){
+            session = val;
+        }
+    }
+
     xhttp.open("GET", "https://codecyprus.org/th/api/question?session=" + session, true);
     xhttp.send();
 
@@ -131,12 +151,12 @@ function question() {
 //Handles text,number and numeric questions.
 function textAnswer() {
     var answerForm = document.getElementById("AnswerElement");
-    var answer = answerForm[0].value;
+    var answer = answerForm.value;
     console.log(answer);
-    if (answerForm[0].value === "")
+    if (answer === "")
         alert("Type an answer");
     else {
-        answer(answer);
+        Answer(answer);
     }
 
 }
@@ -144,22 +164,35 @@ function textAnswer() {
 //Handles yes/no and multiple choice questions.
 function mcqAnswer() {
     //Get answer from The user
-    var answerForm = document.getElementById("AnswerForm");
-    for (let i = 0; i < answerForm[0].length; i++) {
-        if (answerForm[0].elements[i].checked)
-            var answer = answerForm[0].elements[i].value;
+    var rButtons = document.getElementsByClassName("mcq");
+    for (let i = 0; i < rButtons.length; i++) {
+        if (rButtons[i].checked)
+            var answer = rButtons[i].value;
     }
     console.log(answer);
     if (answer === undefined)
         alert("Choose an answer.");
     else
-        answer(answer);
+        Answer(answer);
+}
 
+function boolAnswer() {
+    //Get answer from The user
+    var rButtons = document.getElementsByClassName("bool");
+    for (let i = 0; i < rButtons.length; i++) {
+        if (rButtons[i].checked)
+            var answer = rButtons[i].value;
+    }
+    console.log(answer);
+    if (answer === undefined)
+        alert("Choose an answer.");
+    else
+        Answer(answer);
 }
 
 
 function Answer(answer) {
-    location.reload();
+    // location.reload();
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -168,6 +201,7 @@ function Answer(answer) {
             console.log(object.correct);
             if (object.correct === true) {
                 console.log(this.responseText);
+                question();
             }
             else {
                // alert("Wrong, -3 points, Try again.");
@@ -178,7 +212,19 @@ function Answer(answer) {
             //TODO If response not received (error).
         }
     };
-    xhttp.open("GET", "https://codecyprus.org/th/api/answer?session=" + 'session' + "&answer=" + answer,true);
+
+    let cookie = document.cookie;
+    let cookieContents = cookie.split(";");
+    let session;
+    for (let i = 0; i <cookieContents.length ; i++) {
+        let key = cookieContents[i].split("=")[0].trim();
+        let val = cookieContents[i].split("=")[1].trim();
+        if (key==="session"){
+            session = val;
+        }
+    }
+
+    xhttp.open("GET", "https://codecyprus.org/th/api/answer?session=" + session + "&answer=" + answer,true);
     xhttp.send();
 }
 
@@ -218,7 +264,18 @@ function Skip() {
             //TODO If response not received (error).
         }
     };
-    xhttp.open("GET", "https://codecyprus.org/th/api/question?session=" + 'session', true);
+    let cookie = document.cookie;
+    let cookieContents = cookie.split(";");
+    let session;
+    for (let i = 0; i <cookieContents.length ; i++) {
+        let key = cookieContents[i].split("=")[0].trim();
+        let val = cookieContents[i].split("=")[1].trim();
+        if (key==="session"){
+            session = val;
+        }
+    }
+
+    xhttp.open("GET", "https://codecyprus.org/th/api/question?session=" + session, true);
     xhttp.send();
 }
 
@@ -228,13 +285,24 @@ function skipq() {
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 //TODO If response received (success).
-                location.reload();
+                question();
             }
             else {
                 //TODO If response not received (error).
             }
         };
-        xhttp.open("GET", "https://codecyprus.org/th/api/skip?session=" + 'session', true);
+        let cookie = document.cookie;
+        let cookieContents = cookie.split(";");
+        let session;
+        for (let i = 0; i <cookieContents.length ; i++) {
+            let key = cookieContents[i].split("=")[0].trim();
+            let val = cookieContents[i].split("=")[1].trim();
+            if (key==="session"){
+                session = val;
+            }
+        }
+
+        xhttp.open("GET", "https://codecyprus.org/th/api/skip?session=" + session, true);
         xhttp.send();
     }
 }
@@ -286,8 +354,18 @@ function Leaderboard() {
             //TODO If response not received (error).
         }
     };
+    let cookie = document.cookie;
+    let cookieContents = cookie.split(";");
+    let session;
+    for (let i = 0; i <cookieContents.length ; i++) {
+        let key = cookieContents[i].split("=")[0].trim();
+        let val = cookieContents[i].split("=")[1].trim();
+        if (key==="session"){
+            session = val;
+        }
+    }
 
-    xhttp.open("GET", "https://codecyprus.org/th/api/leaderboard?treasure-hunt-id=" + Cookie("uuid") +'session'+ "&sorted&limit=5", true);
+    xhttp.open("GET", "https://codecyprus.org/th/api/leaderboard?session="+session+ "&sorted&limit=5", true);
     xhttp.send();
 }
 
