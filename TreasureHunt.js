@@ -99,8 +99,7 @@ function question() {
                     "C<input class='mcq' type='radio' name='answer' value='C'>" +
                     "D<input class='mcq' type='radio' name='answer' value='D'>" +
                     "<input class='ansButton' type='button' name='answer' value='submit' onclick ='mcqAnswer()'>" +
-                    "<button class=\"Button\" type=\"button\"> <img class=\"ButtonImg\" src=\"SkipButton.PNG\" /></button>" +
-                    "</form>";
+                    "<input type='button' name='skip' value='skip' onclick ='Skip()'>" + "</form>";
             } else if (object.questionType === "TEXT") {
                 let QDiv = document.getElementById("TypeOfQuestion");
                 QDiv.innerHTML = "<form id='AnswerForm'>" +
