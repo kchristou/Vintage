@@ -3,14 +3,16 @@ html {
     background-size: cover;
     position: relative;
     text-align: center; /*Of the whole website*/
+    height: 100%;
 }
 
 img { /* All the images including the logo images, images on home page and images that i have use as titles */
     padding: 1px;
     border: 2px;
-    width: 100%;
+    width: 80%;
     height: auto;
     margin: auto;
+    align-content: center;
 }
 
 .Button { /*Generally all the buttons in the app*/
@@ -89,9 +91,34 @@ img { /* All the images including the logo images, images on home page and image
 .ParagraphPickPage{
     font-size: large;
     font-weight: bold;
-    background-color: white;
+    background-color: khaki;
     border: double 3px;
-    border-color: sienna;
+    border-color: black;
     padding: 5px;
 
+}
+
+.ParagraphLandingPage{
+
+    color: white;
+    text-shadow: 2px 2px black;
+}
+
+.ListDesign{
+    font-size: large;
+    font-weight: bold;
+    background-color : khaki;
+    border: double 3px;
+    border-color: black;
+    padding: 5px;
+
+}
+
+.LeaderboardBackground{
+    font-size: large;
+    font-weight: bold;
+    background-color : khaki;
+    border: double 3px;
+    border-color: black;
+    padding: 5px;
 }
