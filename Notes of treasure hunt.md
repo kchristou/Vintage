@@ -1,5 +1,13 @@
 Notes:
 
+Generally:
+->Constantinos Christou: Java Script
+->Emilios Hadjiliasi: Design / Marketing / Notres
+->Michalis Agapidis: Testing
+But all of us work in all the parts in the meetings that we have done. Also all of us have work in our own time(out of meetings) 
+in order to fix any kind of problems that happened.
+
+
 -> Monday 22/10/2018 Place: Cafe Nero Oroklini
 	First team meeting! We read the assignment carefully and set different tasks to do on home,
 	about the game. More specific we set a few reaserches to do on home about the images and the content 
