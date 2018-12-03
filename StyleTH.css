@@ -9,7 +9,7 @@ html {
 img { /* All the images including the logo images, images on home page and images that i have use as titles */
     padding: 1px;
     border: 2px;
-    width: 80%;
+    width: 310px;
     height: auto;
     margin: auto;
     align-content: center;
@@ -20,13 +20,8 @@ img { /* All the images including the logo images, images on home page and image
     padding: 2px;
 
 }
-.anotherButton{ /*Button that send you from leaderboard to landing page*/
-    width: 300px;
-}
 
-.anotherButtonImg{ /*image of the Button that send you from leaderboard to landing page*/
-    background-size: 100%
-}
+
 
 .ButtonImg{ /*Design on images in the buttons of landing page*/
     padding: 1px;
