@@ -1,3 +1,5 @@
+const AppName="App_Vintage";
+
 function list() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -30,13 +32,13 @@ function list() {
 
 function Submit() {
         var Username = document.getElementById("Username").value;
-        var appName = document.getElementById("AppName").value;
+
         console.log(Username);
-        console.log(appName);
-        start(Username, appName);
+
+        start(Username);
 }
 
-function start(Username, appName) {
+function start(Username) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -59,7 +61,7 @@ function start(Username, appName) {
     };
 
 
-    xhttp.open("GET", "https://codecyprus.org/th/api/start?player=" + Username + "&app=" + appName + "&treasure-hunt-id=" + Cookie('uuid'), true);
+    xhttp.open("GET", "https://codecyprus.org/th/api/start?player=" + Username + "&app=" + AppName + "&treasure-hunt-id=" + Cookie('uuid'), true);
     xhttp.send();
 }
 
