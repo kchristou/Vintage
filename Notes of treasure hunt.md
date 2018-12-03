@@ -47,8 +47,18 @@ Notes:
 -> Friday 23/11/2018 Place: Uclans Library
 	1)Connect and check some script parts (but not commited on Git)
 	
--> Tuesday 27/11/2018 Place Uclans Library
+-> Tuesday 27/11/2018 Place Uclans Study Room
 	1)Find some errors in design and fix them
 	2)Check and Try to add more code in our JavaScript
 	3)Commit JavaScript File
 	4)Add some changesin the design of HTML files
+	
+-> Friday 30/11/2018 Place: Uclans Study Room
+	1)Fix Some mistakes in Java Script
+	
+-> Sunday 2/12/2018 Place: Cafe Nero Oroklini
+	1)Fix Some mistakes in Java Script code (Id changes, make leadeboard works, Make the questions appears etc)
+	
+-> Monday 3/12/2018 Place: Uclans Study Room
+	1) Add more things on Java Script Code. Remove the adding of AppName and make the app get the app name parameter by itslef
+	2) Fix the design of all pages (Through html and css)
