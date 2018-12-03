@@ -155,7 +155,7 @@ function textAnswer() {
     var answer = answerForm.value;
     console.log(answer);
     if (answer === "")
-        alert("Type an answer");
+        alert("Type the answer");
     else {
         Answer(answer);
     }
@@ -205,8 +205,8 @@ function Answer(answer) {
                 question();
             }
             else {
-               // alert("Wrong, -3 points, Try again.");
-                //Score();
+               alert("Wrong answer! Please Try again.");
+               Score();
             }
         }
         else {
