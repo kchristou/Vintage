@@ -82,9 +82,8 @@ function question() {
                 
             //Get location if needed
             if (object.requiresLocation === true) {
-                object=JSON.parse(this.responseText);
                 getLocation();
-
+                object=JSON.parse(this.responseText);
             }
             console.log(object);
             var QuestionText = document.getElementById("TextQuestion");
@@ -193,7 +192,7 @@ function boolAnswer() {
 
 
 function Answer(answer) {
-    // location.reload();
+     //location.reload();
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -307,7 +306,38 @@ function skipq() {
         xhttp.send();
     }
 }
+/*
+function Location(session, lat, lng) {
+    let url = API_PREFIX + 'location?session=' + session + '&latitude=' + lat + '&longitude=' + lng;
+    let xmlHttpRequest = new XMLHttpRequest();
+    xmlHttpRequest.open('GET', url, true);
+    xmlHttpRequest.send();
+}
 
+/*
+function getLocation() {
+    navigator.geolocation.getCurrentPosition(showPosition);
+    function showPosition(position) {
+        console.log("lat: " + position.coords.latitude);
+        console.log("lng: " + position.coords.longitude);
+        sendLocation(position.coords.latitude, position.coords.longitude);
+    }
+}
+
+//Send the location to the server.
+function sendLocation(latitude,longitude) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            //TODO If response received (success).
+            console.log("location received!");
+        }
+        else {
+            //TODO If response not received (error).
+        }
+    };
+
+/*
 //Still a work in progress
 function getLocation() {
     if (navigator.geolocation) {
@@ -335,6 +365,7 @@ function getLocation() {
     xhttp.open("GET", "https://codecyprus.org/th/api/location?session=" + 'session' + "&latitude=35.00829" + "&longitude=33.697047", true);
     xhttp.send();
 }
+*/
 function Leaderboard() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
