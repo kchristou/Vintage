@@ -119,7 +119,7 @@ img { /* All the images including the logo images, images on home page and image
     border-color: black;
     padding: 5px;
 }
-.AnswerSheetBackground\"
+.AnswerSheetBackground\" /* dDesign the background behind the Questions*/
 {
     font-size: large;
     font-weight: bold;
@@ -128,3 +128,17 @@ img { /* All the images including the logo images, images on home page and image
     border-color: black;
     padding: 5px;
 }
+
+/*-------Design for QR Code-----------*/
+#content{
+    margin: 20px;
+    padding: 20px;
+    background-color: khaki;
+    border: solid black 2px;
+    color: black;
+    text-align: center;
+}
+#preview{
+    border: solid black 2px;
+}
+/*-----------------------------------*/

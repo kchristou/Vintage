@@ -29,8 +29,8 @@
         if (cameras.length > 0) {
             scanner.start(cameras[0]);
         } else {
-            console.error('No cameras found.');
-            alert("No cameras found.");
+            console.error('Camera Not Found.');
+            alert("Camera Not Found.");
         }
     }).catch(function (e) {
         console.error(e);
@@ -40,5 +40,8 @@
         document.getElementById("qrcontent").innerHTML = content;
     });
 </script>
+
+
+
 </body>
 </html>
