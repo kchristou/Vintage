@@ -142,3 +142,13 @@ img { /* All the images including the logo images, images on home page and image
     border: solid black 2px;
 }
 /*-----------------------------------*/
+
+.TestingDesign
+{
+    font-size: large;
+    font-weight: bold;
+    background-color : khaki;
+    border: double 3px;
+    border-color: black;
+    padding: 5px;
+}
