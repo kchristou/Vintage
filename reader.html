@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vintage Treasure Hunt</title>
+    <link rel="stylesheet" type="text/css" href="StyleTH.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="instascan.min.js"></script>
+</head>
+<body>
+<button class="homeButton" onclick="location.href='AnswerSheet.html'">Back to Game</button>
+
+<p>Camera Display Here:</p>
+<video id="preview"></video>
+<div id="content">QR code response:</div>
+<script>
+    //Enable QR scanner, function from worksheet.
+    var opts = {
+        continuous: true,
+        video: document.getElementById('preview'),
+        mirror: true,
+        captureImage: false,
+        backgroundScan: true,
+        refractoryPeriod: 5000,
+        scanPeriod: 1
+    };
+    var scanner = new Instascan.Scanner(opts);
+    Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+            scanner.start(cameras[0]);
+        } else {
+            console.error('No cameras found.');
+            alert("No cameras found.");
+        }
+    }).catch(function (e) {
+        console.error(e);
+    });
+    scanner.addListener('scan', function (content) {
+        console.log(content);
+        document.getElementById("qrcontent").innerHTML = content;
+    });
+</script>
+</body>
+</html>
