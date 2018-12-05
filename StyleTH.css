@@ -150,3 +150,9 @@ img { /* All the images including the logo images, images on home page and image
     border-color: black;
     padding: 5px;
 }
+
+.AnswerSheetImage
+{
+    width: 200px;
+    height: auto;
+}
