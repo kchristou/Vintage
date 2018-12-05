@@ -195,6 +195,21 @@ function boolAnswer() {
         Answer(answer);
 }
 
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
 
 function Answer(answer) {
      //location.reload();
@@ -204,14 +219,24 @@ function Answer(answer) {
             //TODO If response received (success).
             object = JSON.parse(this.responseText);
             console.log(object.correct);
-            if (object.correct === true) {
-                console.log(this.responseText);
-                question();
-                Score();
-            }
-            else {
-               alert("Wrong answer! Please Try again.");
-               Score();
+            if (object.status === "OK") {
+
+
+                if (object.correct === true) {
+                    console.log(this.responseText);
+                    question();
+                    Score();
+                }
+                else {
+                    alert("Wrong answer! Please Try again.");
+                    Score();
+                }
+
+                let scoreAdjustment = Number(getCookie("scoreAdjustment"));
+                scoreAdjustment += object.scoreAdjustment;
+                document.cookie = "scoreAdjustment=" + Number(scoreAdjustment);
+                let scoreElement = document.getElementById("Score");
+                scoreElement.innerHTML = scoreAdjustment;
             }
         }
         else {
@@ -359,25 +384,10 @@ function skipq() {
 
 
 
-
-//If cookie exists then direct to questions (still in development)
-/*function checkSession() {
-    console.log(Cookie("session"));
-    if (Cookie("uuid") !== undefined) {
-        if (confirm('You left a game in progress! Do you want to resume?')) {
-            window.location.href = "AnswerSheet.html";
-        }
-        else {
-            //Expire the session cookie.
-            document.cookie = "session=" + Cookie("uuid") + "; expires=Thu, 01 Jan 2000 00:00:01 GMT";
-        }
-    }
-}*/
-
-//function to access the value of a specific cookie by name from stack overflow.
 function Cookie(name) {
     var value = "; " + document.cookie;
     var scoreAdjustment = 0;
+    document.cookie = "scoreAdjustment=" + scoreAdjustment;
     var parts = value.split("; " + name + "=");
     if (parts.length === 2) return parts.pop().split(";").shift();
 }
