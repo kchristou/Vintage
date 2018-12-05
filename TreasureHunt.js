@@ -80,6 +80,11 @@ function question() {
             if (object.completed) {
                 window.location.href = "Leaderboard.html";
             }
+
+            let scoreAdjustment = Number(getCookie("scoreAdjustment"));
+            console.log("scoreAdjustment: " + scoreAdjustment );
+            let scoreElement = document.getElementById("Score");
+            scoreElement.innerHTML = scoreAdjustment;
             
             if (object.currentQuestionIndex === object.numOfQuestions)
                 // document.cookie = "session=" + Cookie("uuid");
@@ -221,6 +226,11 @@ function Answer(answer) {
             console.log(object.correct);
             if (object.status === "OK") {
 
+                let scoreAdjustment = Number(getCookie("scoreAdjustment"));
+                scoreAdjustment += object.scoreAdjustment;
+                document.cookie = "scoreAdjustment=" + Number(scoreAdjustment);
+                let scoreElement = document.getElementById("Score");
+                scoreElement.innerHTML = scoreAdjustment;
 
                 if (object.correct === true) {
                     console.log(this.responseText);
@@ -232,11 +242,7 @@ function Answer(answer) {
                     Score();
                 }
 
-                let scoreAdjustment = Number(getCookie("scoreAdjustment"));
-                scoreAdjustment += object.scoreAdjustment;
-                document.cookie = "scoreAdjustment=" + Number(scoreAdjustment);
-                let scoreElement = document.getElementById("Score");
-                scoreElement.innerHTML = scoreAdjustment;
+
             }
         }
         else {
@@ -359,7 +365,20 @@ function skipq() {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
+
+                console.log(this.responseText);
+                var object = JSON.parse(this.responseText);
+
+
                 //TODO If response received (success).
+                if (object.status === "OK") {
+                    console.log("Score adjustment: " + object.scoreAdjustment);
+                    let scoreAdjustment = Number(getCookie("scoreAdjustment"));
+                    scoreAdjustment += object.scoreAdjustment;
+                    document.cookie = "scoreAdjustment=" + Number(scoreAdjustment);
+                    let scoreElement = document.getElementById("Score");
+                    scoreElement.innerHTML = scoreAdjustment;
+                }
                 question();
             }
             else {
@@ -455,4 +474,17 @@ function score() {
     };
     xhttp.open("GET", "https://codecyprus.org/th/api/question?session=" + Cookie("session"), true);
     xhttp.send();
+}
+
+function checkSession() {
+    console.log(Cookie("session"));
+    if (Cookie("uuid") !== undefined) {
+        if (confirm('You left a game in progress! Do you want to resume?')) {
+            window.location.href = "AnswerSheet.html";
+        }
+        else {
+            //Expire the session cookie.
+            document.cookie = "session=" + Cookie("uuid") + "; expires=Thu, 01 Jan 2000 00:00:01 GMT";
+        }
+    }
 }
