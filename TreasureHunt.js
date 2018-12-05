@@ -291,7 +291,7 @@ function Leaderboard() {
         }
     }
 
-    xhttp.open("GET", "https://codecyprus.org/th/api/leaderboard?session="+session+ "&sorted&limit=5", true);
+    xhttp.open("GET", "https://codecyprus.org/th/api/leaderboard?session="+session+ "&sorted&limit=30", true);
     xhttp.send();
 }
 
@@ -377,6 +377,7 @@ function skipq() {
 //function to access the value of a specific cookie by name from stack overflow.
 function Cookie(name) {
     var value = "; " + document.cookie;
+    var scoreAdjustment = 0;
     var parts = value.split("; " + name + "=");
     if (parts.length === 2) return parts.pop().split(";").shift();
 }
