@@ -202,6 +202,7 @@ function Answer(answer) {
             if (object.correct === true) {
                 console.log(this.responseText);
                 question();
+                Score();
             }
             else {
                alert("Wrong answer! Please Try again.");
@@ -212,6 +213,7 @@ function Answer(answer) {
             //TODO If response not received (error).
         }
     };
+
 
     let cookie = document.cookie;
     let cookieContents = cookie.split(";");
@@ -245,6 +247,43 @@ function Score() {
     xhttp.open("GET", "https://codecyprus.org/th/api/score?session=" + 'session', true);
     xhttp.send();
 }
+
+
+function Leaderboard() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            //TODO If response received (success).
+            object = JSON.parse(this.responseText);
+            console.log(object.leaderboard);
+            for (let i = 0; i < object.numOfPlayers; i++) {
+                var Leaderboard = document.getElementById("LeaderBoard");
+                var Leaderboardindex = document.createElement("p");
+                Leaderboardindex.innerHTML = "Position: " + (i + 1) + "<br>" + "Name: " + object.leaderboard[i].player + "<br>";
+                Leaderboardindex.innerHTML += " Score: " + object.leaderboard[i].score;
+                Leaderboard.appendChild(Leaderboardindex);
+            }
+
+        }
+        else {
+            //TODO If response not received (error).
+        }
+    };
+    let cookie = document.cookie;
+    let cookieContents = cookie.split(";");
+    let session;
+    for (let i = 0; i <cookieContents.length ; i++) {
+        let key = cookieContents[i].split("=")[0].trim();
+        let val = cookieContents[i].split("=")[1].trim();
+        if (key==="session"){
+            session = val;
+        }
+    }
+
+    xhttp.open("GET", "https://codecyprus.org/th/api/leaderboard?session="+session+ "&sorted&limit=5", true);
+    xhttp.send();
+}
+
 
 //Checks whether the question can be skipped.
 function Skip() {
@@ -308,100 +347,7 @@ function skipq() {
 }
 
 
-/*
-function Location(session, lat, lng) {
-    let url = API_PREFIX + 'location?session=' + session + '&latitude=' + lat + '&longitude=' + lng;
-    let xmlHttpRequest = new XMLHttpRequest();
-    xmlHttpRequest.open('GET', url, true);
-    xmlHttpRequest.send();
-}
 
-/*
-function getLocation() {
-    navigator.geolocation.getCurrentPosition(showPosition);
-    function showPosition(position) {
-        console.log("lat: " + position.coords.latitude);
-        console.log("lng: " + position.coords.longitude);
-        sendLocation(position.coords.latitude, position.coords.longitude);
-    }
-}
-
-//Send the location to the server.
-function sendLocation(latitude,longitude) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            //TODO If response received (success).
-            console.log("location received!");
-        }
-        else {
-            //TODO If response not received (error).
-        }
-    };
-
-/*
-//Still a work in progress
-function getLocation() {
-    if (navigator.geolocation) {
-
-        console.log(navigator.geolocation.getCurrentPosition(location));
-
-    }
-
-    function location(location) {
-        console.log(location.coords.longitude);
-        console.log(location.coords.latitude);
-
-    }
-
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            object = JSON.parse(this.responseText);
-            console.log(object);
-        } else {
-            //TODO If response not received (error).
-        }
-    };
-//TODO get actual location from mobile device.
-    xhttp.open("GET", "https://codecyprus.org/th/api/location?session=" + 'session' + "&latitude=35.00829" + "&longitude=33.697047", true);
-    xhttp.send();
-}
-*/
-function Leaderboard() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            //TODO If response received (success).
-            object = JSON.parse(this.responseText);
-            console.log(object.leaderboard);
-            for (let i = 0; i < object.numOfPlayers; i++) {
-                var Leaderboard = document.getElementById("LeaderBoard");
-                var Leaderboardindex = document.createElement("p");
-                Leaderboardindex.innerHTML = "Position: " + (i + 1) + "<br>" + "Name: " + object.leaderboard[i].player + "<br>";
-                Leaderboardindex.innerHTML += " Score: " + object.leaderboard[i].score;
-                Leaderboard.appendChild(Leaderboardindex);
-            }
-
-        }
-        else {
-            //TODO If response not received (error).
-        }
-    };
-    let cookie = document.cookie;
-    let cookieContents = cookie.split(";");
-    let session;
-    for (let i = 0; i <cookieContents.length ; i++) {
-        let key = cookieContents[i].split("=")[0].trim();
-        let val = cookieContents[i].split("=")[1].trim();
-        if (key==="session"){
-            session = val;
-        }
-    }
-
-    xhttp.open("GET", "https://codecyprus.org/th/api/leaderboard?session="+session+ "&sorted&limit=5", true);
-    xhttp.send();
-}
 
 //If cookie exists then direct to questions (still in development)
 /*function checkSession() {
@@ -423,18 +369,14 @@ function Cookie(name) {
     var parts = value.split("; " + name + "=");
     if (parts.length === 2) return parts.pop().split(";").shift();
 }
-//---> Reference for the above function: https://stackoverflow.com/questions/10730362/get-cookie-
-// by-name?fbclid=IwAR11_jXjhMgY4hs90pYjQm8f4ua5O1Ev90WhH6zZJlmgvs8a8LnAYIVUEb0
-
-
 
 
 //Get the location from the client.
 function getLocation() {
     navigator.geolocation.getCurrentPosition(showPosition);
     function showPosition(position) {
-        console.log("lat: " + position.coords.latitude); //To check if the location is get by the server
-        console.log("lng: " + position.coords.longitude);
+        console.log("latitude: " + position.coords.latitude); //To check if the location is get by the server
+        console.log("longitude: " + position.coords.longitude);
         sendLocation(position.coords.latitude, position.coords.longitude);
     }
 }
@@ -456,3 +398,39 @@ function sendLocation(latitude,longitude) {
     xhttp.send();
 }
 getLocation();
+
+
+//Shows the name of the player and their score.
+function score() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            //TODO If response received (success).
+            object = JSON.parse(this.responseText);
+            var scoreDiv = document.getElementById("score");
+            scoreDiv.innerHTML ="<p>" + 'Player: ' + object.player + "<br>" + ' Score: ' + object.score + "</p>";
+        }
+        else {
+            //TODO If response not received (error).
+        }
+    };
+    xhttp.open("GET", "https://codecyprus.org/th/api/score?session=" + Cookie("session"), true);
+    xhttp.send();
+
+    //Show current question number / last question number.
+    xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            //TODO If response received (success).
+            object = JSON.parse(this.responseText);
+            var currentQuestion = parseInt(object.currentQuestionIndex) + 1;
+            var scoreDiv = document.getElementById("score");
+            scoreDiv.innerHTML+= "Questions: " + currentQuestion + "/" + object.numOfQuestions;
+        }
+        else {
+            //TODO If response not received (error).
+        }
+    };
+    xhttp.open("GET", "https://codecyprus.org/th/api/question?session=" + Cookie("session"), true);
+    xhttp.send();
+}
