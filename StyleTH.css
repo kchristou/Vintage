@@ -156,3 +156,16 @@ img { /* All the images including the logo images, images on home page and image
     width: 200px;
     height: auto;
 }
+
+th{
+    text-decoration: underline;
+}
+
+table{
+    border: double black 2px;
+}
+td{
+    border-right: solid black 2px;
+    border-bottom: solid black 2px;
+    text-align: center;
+}
