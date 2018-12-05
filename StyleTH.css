@@ -33,8 +33,8 @@ img { /* All the images including the logo images, images on home page and image
 .LogInImg{ /* Image of username in Landing page */
     padding: 5px;
     padding-top: 8px;
-    width: 50%;
-    height: auto;
+    width: auto;
+    height: 35px;
     margin: auto;
 }
 
