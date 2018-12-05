@@ -30,15 +30,13 @@ function list() {
     xhttp.send();
 }
 
-function setCookie(uuid){
-    document.cookie = "uuid=" + uuid;
-}
+//function setCookie(uuid){
+    //document.cookie = "uuid=" + uuid;
+//}
 
 function Submit() {
         var Username = document.getElementById("Username").value;
-
         console.log(Username);
-
         start(Username);
 }
 
@@ -285,7 +283,7 @@ function Leaderboard() {
         }
     }
 
-    xhttp.open("GET", "https://codecyprus.org/th/api/leaderboard?session="+session+ "&sorted&limit=5", true);
+    xhttp.open("GET", "https://codecyprus.org/th/api/leaderboard?session="+session+ "&sorted&limit=30", true);
     xhttp.send();
 }
 
