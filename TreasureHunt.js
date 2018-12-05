@@ -397,7 +397,7 @@ function Leaderboard() {
         }
     }
 
-    xhttp.open("GET", "https://codecyprus.org/th/api/leaderboard?session="+session+ "&sorted&limit=20", true);
+    xhttp.open("GET", "https://codecyprus.org/th/api/leaderboard?session="+session+ "&sorted&limit=5", true);
     xhttp.send();
 }
 
