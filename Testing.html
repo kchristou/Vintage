@@ -3,10 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Vintage Treasure Hunt</title>
+    <link rel="stylesheet" href="StyleTH.css">
     <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Make it available on mobiles: https://www.w3schools.com/w3css/w3css_mobile.asp -->
 
 
     <style>
+        h2,h3, h4{
+            text-decoration: underline;
+        }
+        body{
+            background: khaki;
+        }
         table{
             border: double black 3px;
         }
@@ -30,7 +37,6 @@
             and it is targeting mobile devices first and then Desktop Screens.
             It requests data from a server and it implements back a few functions (e.g./list , /leaderboard etc).
             <br>
-            <h3><u>Testing:</u></h3> <br>
             <h4>User Acceptance Plan:</h4>
             The application was given to members of the other teams and our class tudors in order for us to have a black box testing
             which will help us to find and identify mistakes.
@@ -43,7 +49,7 @@
         </p>
     </div>
 
-    <h2><u>Usability Assessment</u></h2>
+    <h2>Usability Assessment</h2>
         <table>
             <tr>
                 <th>Heuristic:</th>
@@ -104,6 +110,46 @@
         </table>
     <br>
     <br>
+    <br>
+    <h2>Unit Testing</h2>
+    <h3>Testing of leaderboard:</h3>
+         <div id="showLeaderboard"></div>
+
+        <input id="answer" min="1"  type="number" placeholder="Entries?">
+        <button id="buttonTestLeaderboard" class="button" onclick="Leaderboard(10)">Test</button>
+        <button id="buttonClearList" class="button" onclick="document.getElementById('showLeaderboard').innerHTML = 'The results of the test to show up here...';">Clear</button>
+
+    <br>
+    <br>
+
+    <script>
+        const URL ='https://codecyprus.org/th/test-api/leaderboard?sorted&size=';
+
+        function Leaderboard() {
+            let limit = document.getElementById("answer").value;
+
+            let http = new XMLHttpRequest();
+            http.open("GET", URL + limit, true);
+
+            http.onload = function(){
+                let object = JSON.parse(this.responseText);
+                console.log(object);
+                let thsArray = object['leaderboard'];
+                let html = '<ul>';
+                for (let i in thsArray) {
+                    let th = thsArray[i];
+                    html += '<li>Player: ' + th['score'];
+                }
+                html += '</ul>';
+                document.getElementById('showLeaderboard').innerHTML = html;
+
+            };
+            http.send();
+        }
+    </script>
+
+
+
 
     <a href="index.html"><button class="Button" type="button">Back to Home Page</button></a>
 

@@ -361,7 +361,7 @@ function Skip() {
 }
 
 function skipq() {
-    if (confirm('You will lose 5 points, are you sure you want to skip?')) {
+    if (confirm('You will lose  points, are you sure you want to skip?')) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
