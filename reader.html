@@ -25,7 +25,8 @@
         scanPeriod: 1
     };
     var scanner = new Instascan.Scanner(opts);
-    Instascan.Camera.getCameras().then(function (cameras) {
+    Instascan.Camera.getCameras()
+        .then(function (cameras) {
         if (cameras.length > 0) {
             scanner.start(cameras[0]);
         } else {
@@ -33,7 +34,7 @@
             alert("Camera Not Found.");
         }
     }).catch(function (e) {
-        console.error(e);
+        console.error("ERRORS FOUND: " + e);
     });
     scanner.addListener('scan', function (content) {
         console.log(content);
@@ -41,7 +42,7 @@
     });
 </script>
 
-
+<div id="qrcontent"></div>
 
 </body>
 </html>

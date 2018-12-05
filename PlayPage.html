@@ -6,6 +6,10 @@
     <script src="TreasureHunt.js"></script>
     <link rel="stylesheet" href="StyleTH.css"> <!-- Connect the html file with the CSS file -->
     <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Make it available on mobiles: https://www.w3schools.com/w3css/w3css_mobile.asp -->
+<script>
+    var url = new URL(window.location.href);
+    var currentUUID = url.searchParams.get("uuid");
+</script>
 </head>
 <body >
     <img src="Logo.png" alt ="logo"  >

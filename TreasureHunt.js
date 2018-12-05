@@ -11,12 +11,12 @@ function list() {
                 var treasureHunt = document.createElement("p");
                 var thLink = document.createElement("a");
                 thLink.innerHTML = (i + 1) + ". " + object.treasureHunts[i].name;
-                thLink.href = "PlayPage.html";
+                thLink.href = "PlayPage.html?uuid=" + object.treasureHunts[i].uuid;
                 treasureHunt.appendChild(thLink);
                 treasureHuntsDiv.appendChild(treasureHunt);
             }
 
-            document.cookie = "uuid=" + object.treasureHunts[0].uuid+";";
+
             console.log(Cookie);
             console.log(document.cookie);
 
@@ -28,6 +28,10 @@ function list() {
 
     xhttp.open("GET", "https://codecyprus.org/th/api/list", true);
     xhttp.send();
+}
+
+function setCookie(uuid){
+    document.cookie = "uuid=" + uuid;
 }
 
 function Submit() {
@@ -43,6 +47,7 @@ function start(Username) {
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             object = JSON.parse(this.responseText);
+            console.log("error messeges" + object.errorMessages);
             if (object.status === "ERROR") {
                 alert(object.errorMessages);
             }
@@ -61,7 +66,7 @@ function start(Username) {
     };
 
 
-    xhttp.open("GET", "https://codecyprus.org/th/api/start?player=" + Username + "&app=" + AppName + "&treasure-hunt-id=" + Cookie('uuid'), true);
+    xhttp.open("GET", "https://codecyprus.org/th/api/start?player=" + Username + "&app=" + AppName + "&treasure-hunt-id=" + currentUUID, true);
     xhttp.send();
 }
 
