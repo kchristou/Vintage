@@ -75,6 +75,9 @@ function question() {
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             //TODO If response received (success).
+
+            console.log(this.responseText);
+
             let object = JSON.parse(this.responseText);
             //If the questions are over send to leaderboard page.
             if (object.completed) {
@@ -208,6 +211,7 @@ function Answer(answer) {
                 console.log(this.responseText);
                 question();
                 Score();
+                scoreAdjustment += object.scoreAdjustment;
             }
             else {
                alert("Wrong answer! Please Try again.");
@@ -244,6 +248,7 @@ function Score() {
             object = JSON.parse(this.responseText);
             var ScoreDiv = document.getElementsByClassName("Score");
             ScoreDiv.innerHTML = "<p>" + 'Player: ' + object.player + ' Score: ' + object.score + "</p>";
+            // console.log(this.responseText);
         }
         else {
             //TODO If response not received (error).
@@ -255,19 +260,23 @@ function Score() {
 
 
 function Leaderboard() {
+    var Leaderboard = document.getElementById("LeaderBoard");
+    var Leaderboardindex = document.createElement("p");
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
+            console.log("LEADERBOARD RESPONSE: " + this.responseText);
             //TODO If response received (success).
             object = JSON.parse(this.responseText);
-            console.log(object.leaderboard);
-            for (let i = 0; i < object.numOfPlayers; i++) {
-                var Leaderboard = document.getElementById("LeaderBoard");
-                var Leaderboardindex = document.createElement("p");
-                Leaderboardindex.innerHTML = "Position: " + (i + 1) + "<br>" + "Name: " + object.leaderboard[i].player + "<br>";
-                Leaderboardindex.innerHTML += " Score: " + object.leaderboard[i].score;
-                Leaderboard.appendChild(Leaderboardindex);
+
+            let leaderboardHTML = "";
+            for (let i = 0; i < object.leaderboard.length; i++) {
+                leaderboardHTML += "Position: " + (i + 1) + "<br>" + "Name: " + object.leaderboard[i].player + "<br>";
+                leaderboardHTML  += " Score: " + object.leaderboard[i].score + "<br><br>";
             }
+
+            Leaderboardindex.innerHTML = leaderboardHTML;
+            Leaderboard.appendChild(Leaderboardindex);
 
         }
         else {
@@ -285,7 +294,7 @@ function Leaderboard() {
         }
     }
 
-    xhttp.open("GET", "https://codecyprus.org/th/api/leaderboard?session="+session+ "&sorted&limit=5", true);
+    xhttp.open("GET", "https://codecyprus.org/th/api/leaderboard?session="+session+ "&sorted&limit=10", true);
     xhttp.send();
 }
 
@@ -371,6 +380,7 @@ function skipq() {
 //function to access the value of a specific cookie by name from stack overflow.
 function Cookie(name) {
     var value = "; " + document.cookie;
+    var scoreAdjustment = 0;
     var parts = value.split("; " + name + "=");
     if (parts.length === 2) return parts.pop().split(";").shift();
 }

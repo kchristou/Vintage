@@ -38,7 +38,7 @@
     });
     scanner.addListener('scan', function (content) {
         console.log(content);
-        document.getElementById("qrcontent").innerHTML = content;
+        document.getElementById("qrcontent").innerHTML = '<a href='+content+'>Result</a>';
     });
 </script>
 
