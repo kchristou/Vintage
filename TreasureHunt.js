@@ -255,19 +255,25 @@ function Score() {
 
 
 function Leaderboard() {
+
+    var Leaderboard = document.getElementById("LeaderBoard");
+    var Leaderboardindex = document.createElement("p");
+
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             //TODO If response received (success).
             object = JSON.parse(this.responseText);
-            console.log(object.leaderboard);
-            for (let i = 0; i < object.numOfPlayers; i++) {
-                var Leaderboard = document.getElementById("LeaderBoard");
-                var Leaderboardindex = document.createElement("p");
-                Leaderboardindex.innerHTML = "Position: " + (i + 1) + "<br>" + "Name: " + object.leaderboard[i].player + "<br>";
-                Leaderboardindex.innerHTML += " Score: " + object.leaderboard[i].score;
-                Leaderboard.appendChild(Leaderboardindex);
+
+            var leaderboardHTML = "";
+
+            for (let i = 0; i < object.leaderboard.length; i++) {
+                leaderboardHTML += "Position: " + (i + 1) + "<br>" + "Name: " + object.leaderboard[i].player + "<br>";
+                leaderboardHTML += " Score: " + object.leaderboard[i].score + "<br><br>";
             }
+
+            Leaderboardindex.innerHTML = leaderboardHTML;
+            Leaderboard.appendChild(Leaderboardindex);
 
         }
         else {
