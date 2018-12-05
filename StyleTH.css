@@ -79,7 +79,7 @@ img { /* All the images including the logo images, images on home page and image
 .HelpParagraph { /*Design of paragraph in Help page*/
     font-size: large;
     font-weight: bold;
-    background-color: white;
+    background-color: khaki;
     border: solid 3px;
     border-color: sienna;
     padding: 5px;
@@ -157,15 +157,21 @@ img { /* All the images including the logo images, images on home page and image
     height: auto;
 }
 
-th{
+h2,h3, h4{
     text-decoration: underline;
 }
 
 table{
-    border: double black 2px;
+    border: double black 3px;
+    background-color: khaki;
 }
 td{
     border-right: solid black 2px;
     border-bottom: solid black 2px;
     text-align: center;
+
+}
+th{
+    border: solid black 2px;
+
 }
