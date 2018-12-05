@@ -306,6 +306,8 @@ function skipq() {
         xhttp.send();
     }
 }
+
+
 /*
 function Location(session, lat, lng) {
     let url = API_PREFIX + 'location?session=' + session + '&latitude=' + lat + '&longitude=' + lng;
@@ -425,3 +427,32 @@ function Cookie(name) {
 // by-name?fbclid=IwAR11_jXjhMgY4hs90pYjQm8f4ua5O1Ev90WhH6zZJlmgvs8a8LnAYIVUEb0
 
 
+
+
+//Get the location from the client.
+function getLocation() {
+    navigator.geolocation.getCurrentPosition(showPosition);
+    function showPosition(position) {
+        console.log("lat: " + position.coords.latitude); //To check if the location is get by the server
+        console.log("lng: " + position.coords.longitude);
+        sendLocation(position.coords.latitude, position.coords.longitude);
+    }
+}
+
+//Send the location to the server.
+function sendLocation(latitude,longitude) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            //TODO If response received (success).
+            console.log("location received!");
+        }
+        else {
+            //TODO If response not received (error).
+        }
+    };
+    xhttp.open("GET", "https://codecyprus.org/th/api/location?" +
+        "session=" + Cookie("session") + "&latitude=" + latitude + "&longitude=" + longitude, true);
+    xhttp.send();
+}
+getLocation();
