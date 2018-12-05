@@ -85,7 +85,7 @@ img { /* All the images including the logo images, images on home page and image
     padding: 5px;
 }
 
-.ParagraphPickPage{
+.ParagraphPickPage{ /*Design of paragraph in Pick a treasure page*/
     font-size: large;
     font-weight: bold;
     background-color: khaki;
@@ -95,11 +95,6 @@ img { /* All the images including the logo images, images on home page and image
 
 }
 
-.ParagraphLandingPage{
-
-    color: white;
-    text-shadow: 2px 2px black;
-}
 
 .ListDesign{
     font-size: large;
