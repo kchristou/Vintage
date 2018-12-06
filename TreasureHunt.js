@@ -438,7 +438,6 @@ function sendLocation(latitude,longitude) {
         "session=" + Cookie("session") + "&latitude=" + latitude + "&longitude=" + longitude, true);
     xhttp.send();
 }
-getLocation();
 
 
 //Shows the name of the player and their score.
