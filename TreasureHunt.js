@@ -1,6 +1,6 @@
 const AppName="App_Vintage";
 
-function list() {
+function list() {  //function that calls the /list. the function receives the lists from the server
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -30,11 +30,11 @@ function list() {
     xhttp.send();
 }
 
-function setCookie(uuid){
+function setCookie(uuid){ //Funtion that set cookies to save the uuid
     document.cookie = "uuid=" + uuid;
 }
 
-function Submit() {
+function Submit() {  // function that get the username and submit it to the server
         var Username = document.getElementById("Username").value;
 
         console.log(Username);
@@ -42,18 +42,18 @@ function Submit() {
         start(Username);
 }
 
-function start(Username) {
+function start(Username) {  // function that takes the username  from the user
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             object = JSON.parse(this.responseText);
             console.log("error messeges" + object.errorMessages);
-            if (object.status === "ERROR") {
+            if (object.status === "ERROR") { // sends error
                 alert(object.errorMessages);
             }
             else {
 
-                let now = Date.now();
+                let now = Date.now(); //get the date on Now
                 now+= 300000;
 
                 document.cookie = "session=" + object.session + "; expires=" + now;
@@ -70,18 +70,18 @@ function start(Username) {
     xhttp.send();
 }
 
-function question() {
+function question() { //Function that receives the questions from the server
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             //TODO If response received (success).
             let object = JSON.parse(this.responseText);
             //If the questions are over send to leaderboard page.
-            if (object.completed) {
+            if (object.completed) { //checks if the quizes are completed and opens the leaderboard
                 window.location.href = "Leaderboard.html";
             }
 
-            let scoreAdjustment = Number(getCookie("scoreAdjustment"));
+            let scoreAdjustment = Number(getCookie("scoreAdjustment")); //save the score in cookies and +- depending on the answer
             console.log("scoreAdjustment: " + scoreAdjustment );
             let scoreElement = document.getElementById("Score");
             scoreElement.innerHTML = scoreAdjustment;
@@ -90,7 +90,7 @@ function question() {
                 // document.cookie = "session=" + Cookie("uuid");
             console.log(object);
                 
-            //Get location if needed
+            //Get location if needed by the question
             if (object.requiresLocation === true) {
                 if (confirm("The next question requires location. Do you want to give your location?")) {
                     getLocation();
@@ -101,7 +101,7 @@ function question() {
             var QuestionText = document.getElementById("TextQuestion");
             QuestionText.innerHTML = "<p id='QuestionText'>" + object.questionText + "</p>";
 
-
+            //all the possible types of questions + the types of answers that are available
             if (object.questionType === "MCQ") {
                 let QDiv = document.getElementById("TypeOfQuestion");
                 QDiv.innerHTML = "<form id='AnswerForm'>" +
@@ -187,7 +187,7 @@ function mcqAnswer() {
     else
         Answer(answer);
 }
-
+//HANDLES t/f
 function boolAnswer() {
     //Get answer from The user
     var rButtons = document.getElementsByClassName("bool");
@@ -201,7 +201,7 @@ function boolAnswer() {
     else
         Answer(answer);
 }
-
+//cookies that saves name
 function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
@@ -226,7 +226,7 @@ function Answer(answer) {
             //TODO If response received (success).
             object = JSON.parse(this.responseText);
             console.log(object.correct);
-            if (object.status === "OK") {
+            if (object.status === "OK") { //if status=ok then +/- the score
 
                 let scoreAdjustment = Number(getCookie("scoreAdjustment"));
                 scoreAdjustment += object.scoreAdjustment;
@@ -239,7 +239,7 @@ function Answer(answer) {
                     question();
                     Score();
                 }
-                else {
+                else { //if the answer is wrong it sends a wrong message
                     alert("Wrong answer! Please Try again.");
                     Score();
                 }
@@ -259,7 +259,7 @@ function Answer(answer) {
     for (let i = 0; i <cookieContents.length ; i++) {
         let key = cookieContents[i].split("=")[0].trim();
         let val = cookieContents[i].split("=")[1].trim();
-        if (key==="session"){
+        if (key==="session"){ //gets the session
             session = val;
         }
     }
@@ -287,7 +287,7 @@ function Score() {
 }
 
 
-function Leaderboard() {
+function Leaderboard() { //function that contains the leaderboard contents(score name etc)
 
     var Leaderboard = document.getElementById("LeaderBoard");
     var Leaderboardindex = document.createElement("p");
@@ -405,7 +405,7 @@ function skipq() {
 
 
 
-function Cookie(name) {
+function Cookie(name) { //cookie for the score Adjustment
     var value = "; " + document.cookie;
     var scoreAdjustment = 0;
     document.cookie = "scoreAdjustment=" + scoreAdjustment;
