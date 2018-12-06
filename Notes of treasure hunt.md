@@ -1,7 +1,7 @@
 **Notes:
 
-Generally:
--------------
+-> Generally:
+-----------------------------------------
 ->Constantinos Christou: Java Script / Marketing /Testing
 ->Emilios Hadjiliasi: Design / Marketing / Notes / Testing / Java Script
 ->Michalis Agapidis:  Marketing / Testing
