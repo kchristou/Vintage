@@ -2,7 +2,7 @@
 
 -> Generally:
 -----------------------------------------
-->Constantinos Christou: Java Script / Marketing /Testing
+->Constantinos Christou: Java Script / Marketing
 ->Emilios Hadjiliasi: Design / Marketing / Notes / Testing / Java Script
 ->Michalis Agapidis:  Marketing / Testing
 But all of us work in all the parts in the meetings that we have done. Also all of us have work in our own time(out of meetings) 
