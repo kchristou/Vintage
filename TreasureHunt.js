@@ -88,12 +88,14 @@ function question() {
             
             if (object.currentQuestionIndex === object.numOfQuestions)
                 // document.cookie = "session=" + Cookie("uuid");
-
+            console.log(object);
                 
             //Get location if needed
             if (object.requiresLocation === true) {
-                getLocation();
-                object=JSON.parse(this.responseText);
+                if (confirm("The next question requires location. Do you want to give your location?")) {
+                    getLocation();
+                    object = JSON.parse(this.responseText);
+                }
             }
             console.log(object);
             var QuestionText = document.getElementById("TextQuestion");
