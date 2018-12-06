@@ -151,7 +151,7 @@ img { /* All the images including the logo images, images on home page and image
     width: 200px;
     height: auto;
 }
-
+/*--------------Design for testing page--------------*/
 h2,h3, h4{
     text-decoration: underline;
 }
@@ -168,5 +168,5 @@ td{
 }
 th{
     border: solid black 2px;
-
 }
+/*----------------------------------------------------*/
